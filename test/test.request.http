@@ -2,7 +2,8 @@
 ### use with: HTTP client extension
 
 @apiurl = http://localhost:3000/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6ImJvYl9icm93biIsImVtYWlsIjoiYm9iQGV4YW1wbGUuY29tIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDEtMDVUMDU6NDU6MDAuMDAwWiIsInVzZXJfbGV2ZWwiOiJyZWd1bGFyIiwiaWF0IjoxNzcwNjU2OTA2LCJleHAiOjE3NzA3NDMzMDZ9.spsu44NN_Bhsy_whtl6WORMypAjGjcRq2nYAPKNSzuU
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJ1c2VybmFtZSI6InJvb3BlIiwiZW1haWwiOiJhbmtrYUBleGFtcGxlLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTAyLTI1VDA4OjI2OjAxLjAwMFoiLCJ1c2VyX2xldmVsIjoicmVndWxhciIsImlhdCI6MTc3MjA5MzAxNiwiZXhwIjoxNzcyMTc5NDE2fQ.6CTyKlbwnj_iHB0XsYeVy32S3WcUSBTvznvSR0b-GYg
+
 ### Get all items
 GET {{apiurl}}/items
 
@@ -40,9 +41,9 @@ Content-Type: application/json
 
 
 {
-  "username": "donald",
-  "password": "duck",
-  "email": "donald@example.com"
+  "username": "roope",
+  "password": "ankka",
+  "email": "ankka@example.com"
 }
 
 
@@ -52,8 +53,8 @@ Content-Type: application/json
 
 
 {
-  "username": "donald",
-  "password": "duck"
+  "username": "roope",
+  "password": "ankka"
 }
 
 ### User login
@@ -61,8 +62,8 @@ POST {{apiurl}}/users/login
 Content-Type: application/json
 
 {
-  "username": "bob_brown",
-  "password": "hashed_password"
+  "username": "roope",
+  "password": "ankka"
 }
 
 ### Get user info by token
@@ -72,20 +73,31 @@ Authorization: Bearer {{token}}
 
 ### Diary entry endpoints
 
-### Get all entries
+### Get all entries (by user id in token)
 GET {{apiurl}}/entries
+Authorization: Bearer {{token}}
 
 ### GET entry by id
 GET {{apiurl}}/entries/3
 
+
+### Delete entry by id
+DELETE {{apiurl}}/entries/6
+Authorization: Bearer {{token}}
+
 ### Post new entry
 POST {{apiurl}}/entries
- Content-Type: application/json
- Authorization: Bearer {{token}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
- "user_id": 3,
- "entry_date": 2026-02-04,
- "mood": "really happy",
- "weight": 66,
- "sleep hours": 8,
- "motes": "normaali päivä"
+{ 
+  "user_id": 8,
+  "entry_date": "2026-02-04",
+  "mood": "really happy",
+  "weight": 66,
+  "sleep_hours": 5,
+  "steps": 10000,
+  "calories_eaten": 2000,
+  "calories_burned": 3000,
+  "notes": "normipäivä"
+}

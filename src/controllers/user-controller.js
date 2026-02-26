@@ -1,7 +1,7 @@
-import {findUserByUsername,findAllUsers, findUserById, createUser,} from "../models/user-models.js";
+import bcrypt from "bcryptjs";
+import { findUserByUsername, findAllUsers, findUserById, addUser} from "../models/user-models.js";
 import jwt from 'jsonwebtoken';
-// TODO: lisää tietokanta funktiot user modeliin ja käytä niitä täällä
-// TODO: Refaktoroi tietokanta funktiolle   
+ 
 
 const getUsers = async (request, response) => {
   try {
@@ -91,51 +91,41 @@ const deleteUserById = async (request, response) => {
 
 
 // Käyttäjän lisäys (rekisteröityminen)
+const postUser = async (request, response) => {
+  const newUser = request.body;
 
-const postUser = (request, response) => {
+  // HUOM: ÄLÄ ikinä loggaa käyttäjätietoja ensimmäisten pakollisten testien jälkeen!!! (tietosuoja)
+  //console.log('registering new user', newUser);
 
-// UUsilla käyytäjllä pitää olla kaikki vaaditut ominaisuudet
-// itse koodattu erittäin yksinkertainen syötteen validointi
-if (!(newUser.username && newUser.password && newUser.email)) {
-    return response.status(400).json({error: 'required fields missing'});
-
-}
-
-// HUOM! ÄLÄ ikinä loggaa käyttäjätietoja ensimmäisten pakollisten testien jälkeen!!
-    const newUser = request.body;
-    console.log('registering new users', newUser);
-    const newId = users[users.length-1].id+1;
-    newUser.id = newId;
-    // Luodaan uusi objekti joka sisältää id-propetyn ja kaikki NewUser objektin
-    // ominaisuudet ja lisätään se users taulukkon loppuun
-    users.push({id:newId,...newUser});
-    delete newUser.password;
-    console.log('users', users);
-    response.status(201).json({message: 'new user added', user: newUser});
+  // Lasketaan salasanasta tiiviste (hash)
+  const hash = await bcrypt.hash(newUser.password, 10);
+  //console.log('salasanatiiviste:', hash);
+  // Korvataan selväkielinen salasana tiivisteellä ennen kantaan tallennusta
+  newUser.password = hash;
+  const newUserId = await addUser(newUser);
+  vastaus.status(201).json({message: 'new user added', user_id: newUserId});
 };
 
 // Tietokantaversio valmis
-
-const postlogin = async (request, response) => {
-    const {username, password} = request.body;
-    
-    // Haetaan käyttäjä objekti nimen perusteella
-    const user = await findUserByUsername(username);
-    console.log('postLogin user from db', user);
-
-    if (user) {
-        if (user.password === password) {
-            delete user.password;
-            // generate & sign token using a secret from .env file
-            const token = jwt.sign(user, process.env.JWT_SECRET,{
-                expiresIn: process.env.JWT_EXPIRES_IN,
-            });
-            
-            return response.json({message: 'login ok', user, token});
-        }
-        return response.status(403).json({error: 'wrong password'});
-}
-response.status(404).json({error: 'user not found'});
+const postLogin = async (req, res) => {
+  const {username, password} = req.body;
+  // haetaan käyttäjä-objekti käyttäjän nimen perusteella
+  const user = await findUserByUsername(username);
+  //console.log('postLogin user from db', user);
+  if (user) {
+    // jos asiakkaalta tullut salasana vastaa tietokannasta haettua tiivistettä, ehto on tosi
+    if (await bcrypt.compare(password, user.password)) {
+      delete user.password;
+      // generate & sign token using a secret and expiration time
+      // read from .env file
+      const token = jwt.sign(user, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      });
+      return res.json({message: 'login ok', user, token});
+    }
+    return res.status(403).json({error: 'invalid password'});
+  }
+  res.status(404).json({error: 'user not found'});
 };
 
 // Get user information based on token
@@ -144,4 +134,4 @@ const getMe = (req, res) => {
     res.json(req.user);
 }
 
-export {getUsers, getUserById, putUserById, deleteUserById, postUser, postlogin, getMe};
+export {getUsers, getUserById, putUserById, deleteUserById, postUser, getMe, postLogin};

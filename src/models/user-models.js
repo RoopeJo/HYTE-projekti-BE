@@ -4,7 +4,23 @@ import promisePool from '../utils/database.js';
 // TODO: lisää mallit ja muokkaa kontrollerit reiteille:
 // GET /api/users - list all users
 // GET /api/users/:id - get one user by id
+
+
 // POST /api/users - add new user
+const addUser = async (entry) => {
+  const {username, password, email} = entry;
+  const sql = `INSERT INTO USERS (username, password, email)
+               VALUES (?, ?, ?)`;
+  const params = [username, password, email];
+  try {
+    const rows = await promisePool.execute(sql, params);
+    console.log('rows', rows);
+    return {user_id: rows[0].insertId};
+  } catch (e) {
+    console.error('error', e.message);
+    return {error: e.message};
+  }
+};
 
 // Huom: virheenkäsittely puuttuu
 const findUserByUsername = async (username) => {
@@ -25,20 +41,5 @@ const findUserById = async (id) => {
     return rows[0];
 };
 
-const createUser = async (userData) => {
-    const sql = `
-        INSERT INTO Users (username, email, password)
-        VALUES (?, ?, ?)
-    `;
-    const params = [userData.username, userData.email, userData.password];
-    const [result] = await promisePool.execute(sql, params);
-
-    return {
-        id: result.insertId,
-        username: userData.username,
-        email: userData.email
-    };
-};
-
-export { findUserByUsername, findAllUsers, findUserById, createUser
+export { findUserByUsername, findAllUsers, findUserById, addUser
 };

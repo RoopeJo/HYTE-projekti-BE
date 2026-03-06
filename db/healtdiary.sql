@@ -52,16 +52,17 @@ CREATE TABLE IF NOT EXISTS DailySteps (
     user_id INT NOT NULL,
     step_date DATE NOT NULL,
     steps INT NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
 -- Altering existing tables
 
-ALTER TABLE DiaryEntries ADD COLUMN calories_in INT AFTER sleep_hours;
+ALTER TABLE DiaryEntries ADD COLUMN calories_eaten INT NULL AFTER steps;
 
+ALTER TABLE DiaryEntries  ADD COLUMN steps INT NULL AFTER sleep_hours;
 
-ALTER TABLE DiaryEntries ADD COLUMN calories_out INT AFTER calories_in;
+ALTER TABLE DiaryEntries ADD COLUMN calories_burned INT NULL AFTER calories_eaten;
 
 
 

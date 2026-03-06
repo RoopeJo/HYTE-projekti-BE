@@ -68,7 +68,7 @@ const putUserById = async (request, response) => {
   }
 };
 
-// TODO: deleteUserById
+/* TODO: deleteUserById
 const deleteUserById = async (request, response) => {
   try {
     const { id } = request.params;
@@ -87,13 +87,13 @@ const deleteUserById = async (request, response) => {
     console.error('deleteUserById error:', err);
     return response.status(500).json({ error: 'internal server error' });
   }
-};
+};*/
 
 
 // Käyttäjän lisäys (rekisteröityminen)
 const postUser = async (request, response) => {
   const newUser = request.body;
-
+  console.log('Moi');
   // HUOM: ÄLÄ ikinä loggaa käyttäjätietoja ensimmäisten pakollisten testien jälkeen!!! (tietosuoja)
   //console.log('registering new user', newUser);
 
@@ -103,7 +103,7 @@ const postUser = async (request, response) => {
   // Korvataan selväkielinen salasana tiivisteellä ennen kantaan tallennusta
   newUser.password = hash;
   const newUserId = await addUser(newUser);
-  vastaus.status(201).json({message: 'new user added', user_id: newUserId});
+  return response.status(201).json({message: 'new user added', user_id: newUserId});
 };
 
 // Tietokantaversio valmis
@@ -134,4 +134,4 @@ const getMe = (req, res) => {
     res.json(req.user);
 }
 
-export {getUsers, getUserById, putUserById, deleteUserById, postUser, getMe, postLogin};
+export {getUsers, getUserById, putUserById, postUser, getMe, postLogin};

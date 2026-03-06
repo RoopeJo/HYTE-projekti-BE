@@ -1,39 +1,78 @@
-import express from 'express';
-import { body } from 'express-validator';
-import {getMe, getUsers, postUser, postLogin} from '../controllers/user-controller.js';
-import { authenticateToken } from '../middlewares/authentication.js';
-import { getUserById } from '../controllers/user-controller.js';
-import{ putUserById } from '../controllers/user-controller.js';
-import { deleteUserById } from '../controllers/user-controller.js';
-import { validationErrorHandler } from '../middlewares/error-handlers.js';
 
+import express from 'express';
+import { body, param } from 'express-validator';
+import {
+  getMe,
+  getUsers,
+  postUser,
+  postLogin,
+  getUserById,
+  putUserById,
+} from '../controllers/user-controller.js';
+import { authenticateToken } from '../middlewares/authentication.js';
+import { validationErrorHandler } from '../middlewares/error-handlers.js';
 
 const userRouter = express.Router();
 
 // USERS resource endpoints
 
-//Get all users
-userRouter.get('/', getUsers)
+// GET all users
+userRouter.get('/', getUsers);
+
 
 // Post new user
-userRouter.post(body('username').trim().isLength({min: 3, max: 20}).isAlphanumeric(), validationErrorHandler, postUser);
-userRouter.post(body('password').trim().isLength({min: 8, max: 30}), validationErrorHandler, postUser);
-userRouter.post(body('email').trim().isEmail(), validationErrorHandler, postUser);
- 
+userRouter.post(
+  '/',
+  [
+    body('username')
+      .trim()
+      .isLength({ min: 3, max: 20 })
+      .isAlphanumeric(),
 
-// Get user info based on token
+    body('password')
+      .trim()
+      .isLength({ min: 8, max: 30 }),
+
+    body('email')
+      .trim()
+      .isEmail()
+  ],
+  validationErrorHandler,
+  postUser
+);
+
+
+// GET user info based on token
 userRouter.get('/me', authenticateToken, getMe);
 
 // POST user login
 userRouter.post('/login', postLogin);
 
-// Get user by id
-userRouter.get('/id',getUserById);
+// GET user by id
+userRouter.get(
+  '/:id',
+  [param('id').isInt().withMessage('id pitää olla numero')],
+  validationErrorHandler,
+  getUserById
+);
 
-// Put user by id
-userRouter.put('/id',putUserById);
+// PUT update user by id
+userRouter.put(
+  '/:id',
+  [
+    param('id').isInt().withMessage('id pitää olla numero')
+  ],
+  validationErrorHandler,
+  putUserById
+);
 
-// Delete user by id
-userRouter.delete('/id',deleteUserById);
+/*DELETE user by id
+userRouter.delete(
+  '/:id',
+  [param('id').isInt().withMessage('id pitää olla numero')],
+  validationErrorHandler,
+  deleteUserById
+);*/
 
 export default userRouter;
+``

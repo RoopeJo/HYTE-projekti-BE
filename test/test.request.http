@@ -2,7 +2,7 @@
 ### use with: HTTP client extension
 
 @apiurl = http://localhost:3000/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJ1c2VybmFtZSI6InJvb3BlIiwiZW1haWwiOiJhbmtrYUBleGFtcGxlLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTAyLTI1VDA4OjI2OjAxLjAwMFoiLCJ1c2VyX2xldmVsIjoicmVndWxhciIsImlhdCI6MTc3MjA5MzAxNiwiZXhwIjoxNzcyMTc5NDE2fQ.6CTyKlbwnj_iHB0XsYeVy32S3WcUSBTvznvSR0b-GYg
+@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMSwidXNlcm5hbWUiOiJodXB1IiwiZW1haWwiOiJodXB1QGV4YW1wbGUuZmkiLCJjcmVhdGVkX2F0IjoiMjAyNi0wMy0wMlQxNjoyNTo0OC4wMDBaIiwidXNlcl9sZXZlbCI6InJlZ3VsYXIiLCJpYXQiOjE3NzI2MjQ3MDcsImV4cCI6MTc3MjcxMTEwN30.sNj8p1W8iQO7M19GOUJTHNW-kdwdkf18Kk8E0dEFfZ8
 
 ### Get all items
 GET {{apiurl}}/items
@@ -41,9 +41,9 @@ Content-Type: application/json
 
 
 {
-  "username": "roope",
-  "password": "ankka",
-  "email": "ankka@example.com"
+  "username": "hupu",
+  "password": "hupuankka2026",
+  "email": "hupu@example.fi"
 }
 
 
@@ -62,8 +62,8 @@ POST {{apiurl}}/users/login
 Content-Type: application/json
 
 {
-  "username": "roope",
-  "password": "ankka"
+  "username": "hupu",
+  "password": "hupuankka2026"
 }
 
 ### Get user info by token
@@ -78,11 +78,11 @@ GET {{apiurl}}/entries
 Authorization: Bearer {{token}}
 
 ### GET entry by id
-GET {{apiurl}}/entries/3
+GET {{apiurl}}/entries/9
 
 
 ### Delete entry by id
-DELETE {{apiurl}}/entries/6
+DELETE {{apiurl}}/entries/7
 Authorization: Bearer {{token}}
 
 ### Post new entry
@@ -91,13 +91,13 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 { 
-  "user_id": 8,
+  "user_id": 11,
   "entry_date": "2026-02-04",
   "mood": "really happy",
   "weight": 66,
   "sleep_hours": 5,
-  "steps": 10000,
-  "calories_eaten": 2000,
-  "calories_burned": 3000,
+  "steps": 11800,
+  "calories_eaten": 3000,
+  "calories_burned": 3800,
   "notes": "normipäivä"
 }

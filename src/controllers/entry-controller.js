@@ -5,7 +5,7 @@ const getEntries = async (req, res) => {
   // const result = await listAllEntries();
 
   // Haetaan (token) kirjautuneen käyttäjän omat merkinnät
-  const result = await listAllEntriesByUserId (req,user )
+  const result = await listAllEntriesByUserId (req.user.user_id);
   if (!result.error) {
     res.json(result);
   } else {

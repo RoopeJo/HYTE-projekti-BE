@@ -9,7 +9,7 @@ import promisePool from '../utils/database.js';
 // POST /api/users - add new user
 const addUser = async (entry) => {
   const {username, password, email} = entry;
-  const sql = `INSERT INTO USERS (username, password, email)
+  const sql = `INSERT INTO Users (username, password, email)
                VALUES (?, ?, ?)`;
   const params = [username, password, email];
   try {
@@ -30,13 +30,13 @@ const findUserByUsername = async (username) => {
 };
 
 const findAllUsers = async () => {
-    const sql = 'SELECT id, username, email FROM Users';
+    const sql = 'SELECT user_id AS id, username, email FROM Users';
     const [rows] = await promisePool.execute(sql);
     return rows;
 };
 
 const findUserById = async (id) => {
-    const sql = 'SELECT id, username, email FROM Users WHERE id = ?';
+    const sql = 'SELECT user_id AS id, username, email FROM Users WHERE id = ?';
     const [rows] = await promisePool.execute(sql, [id]);
     return rows[0];
 };

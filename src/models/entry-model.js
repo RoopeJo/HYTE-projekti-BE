@@ -42,12 +42,39 @@ const findEntryById = async (id) => {
   }
 };
 
+
 // Function to add entries into diary
 const addEntry = async (entry) => {
-  const {user_id, entry_date, mood, weight, sleep_hours, notes} = entry;
-  const sql = `INSERT INTO DiaryEntries (user_id, entry_date, mood, weight, sleep_hours, notes)
-               VALUES (?, ?, ?, ?, ?, ?)`;
-  const params = [user_id, entry_date, mood, weight, sleep_hours, notes];
+  const { 
+    user_id, 
+    entry_date, 
+    mood, 
+    weight, 
+    sleep_hours, 
+    notes,
+    steps,
+    calories_eaten,
+    calories_burned
+  } = entry;
+
+  const sql = `
+    INSERT INTO DiaryEntries 
+      (user_id, entry_date, mood, weight, sleep_hours, notes, steps, calories_eaten, calories_burned)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const params = [
+    user_id, 
+    entry_date, 
+    mood, 
+    weight, 
+    sleep_hours, 
+    notes,
+    steps,
+    calories_eaten,
+    calories_burned
+  ];
+
   try {
     const rows = await promisePool.execute(sql, params);
     console.log('rows', rows);

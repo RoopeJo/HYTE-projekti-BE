@@ -63,6 +63,8 @@ erDiagram
 Kuvakaappaukset sivuston käyttöliittymistä:
 <img width="1898" height="877" alt="image" src="https://github.com/user-attachments/assets/82606602-79f9-4d2e-939d-69ab0985a8ae" />
 <img width="1696" height="873" alt="image" src="https://github.com/user-attachments/assets/71bc0459-55cd-4412-8647-23f547b4d801" />
+<img width="797" height="777" alt="image" src="https://github.com/user-attachments/assets/d9912075-4601-4862-b2cd-e202f29666fa" />
+<img width="885" height="847" alt="image" src="https://github.com/user-attachments/assets/6bce55b4-e68f-43bb-bb91-3fab56d6311b" />
 <img width="1897" height="843" alt="image" src="https://github.com/user-attachments/assets/bf04e667-2403-491f-aa12-b738e8386f39" />
 <img width="1897" height="871" alt="image" src="https://github.com/user-attachments/assets/eba20030-4078-45d7-9459-106f050a13b4" />
 <img width="1872" height="853" alt="image" src="https://github.com/user-attachments/assets/0cec98ce-a8de-4b16-bf2e-c215c07e8056" />
